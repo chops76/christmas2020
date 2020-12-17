@@ -60,8 +60,11 @@ public class PlayerControl : MonoBehaviour
         }
         myRigidBody.velocity = new Vector2(moveSpeed, myRigidBody.velocity.y);
 
+        myAnimator.SetFloat("Speed", myRigidBody.velocity.x);
+        myAnimator.SetBool("Grounded", grounded);
+
         //prevents jump on pause
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject() && !Input.GetKey(KeyCode.Space))
         {
             return;
         }
@@ -103,17 +106,23 @@ public class PlayerControl : MonoBehaviour
             jumpTimeCounter = jumpDuration;
             canDoubleJump = true;
         }
+    }
 
-        myAnimator.SetFloat("Speed", myRigidBody.velocity.x);
-        myAnimator.SetBool("Grounded", grounded);
+    public void Reset()
+    {
+        moveSpeed = initialMoveSpeed;
+        myAnimator.SetBool("Dead", false);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.tag == "killbox")
         {
+            myAnimator.SetBool("Dead", true);
+            //myRigidBody.velocity = new Vector2(0,0);
             deathSound.Play();
-            moveSpeed = initialMoveSpeed;
+            //moveSpeed = initialMoveSpeed;
+            moveSpeed = 0;
             speedIncreaseMilestone = initialSpeedIncreaseMilestone;
             nextSpeedMilestone = speedIncreaseMilestone;
 

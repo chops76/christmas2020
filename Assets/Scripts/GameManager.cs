@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private Vector3 playerStartPoint;
 
     private ScoreManager scoreManager;
+    private MusicManager musicManager;
 
     public DeathMenu deathScreen;
 
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         platformStartPoint = platformGenerator.position;
         playerStartPoint = player.transform.position;
         scoreManager = FindObjectOfType<ScoreManager>();
+        musicManager = FindObjectOfType<MusicManager>();
     }
 
     // Update is called once per frame
@@ -33,8 +35,9 @@ public class GameManager : MonoBehaviour
     {
         scoreManager.scoreIncreasing = false;
         scoreManager.SaveHighScore();
-        player.gameObject.SetActive(false);
+        //player.gameObject.SetActive(false);
         deathScreen.gameObject.SetActive(true);
+        musicManager.StopMusic();
     }
 
     public void Reset()
@@ -49,6 +52,8 @@ public class GameManager : MonoBehaviour
         platformGenerator.position = platformStartPoint;
         scoreManager.scoreCount = 0;
         scoreManager.scoreIncreasing = true;
+        player.Reset();
         player.gameObject.SetActive(true);
+        musicManager.StartMusic();
     }
 }

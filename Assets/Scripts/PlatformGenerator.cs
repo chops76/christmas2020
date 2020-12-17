@@ -18,6 +18,9 @@ public class PlatformGenerator : MonoBehaviour
 
     private PickupGenerator pickupGenerator;
     public float pickupPercentChance;
+
+    public float laundryPercentChance;
+    public ObjectPool laundryPool;
    
     private float[] platformWidths;
 
@@ -57,7 +60,18 @@ public class PlatformGenerator : MonoBehaviour
 
             if (Random.Range(0, 99) < pickupPercentChance)
             {
-                pickupGenerator.SpawnPickups(new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z));
+                pickupGenerator.SpawnPickups(new Vector3(transform.position.x, 
+                    transform.position.y + 1.5f, transform.position.z));
+            }
+
+            if (Random.Range(0, 99) < laundryPercentChance)
+            {
+                GameObject newLaundry = laundryPool.GetPooledObject();
+                newLaundry.transform.position = transform.position + 
+                    new Vector3(Random.Range(-platformWidths[platformSelector] / 2, 
+                                             platformWidths[platformSelector] / 2), .5f, 0);
+                newLaundry.transform.rotation = transform.rotation;
+                newLaundry.SetActive(true);
             }
 
             transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2),
