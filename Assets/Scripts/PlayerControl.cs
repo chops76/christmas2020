@@ -63,8 +63,7 @@ public class PlayerControl : MonoBehaviour
         myAnimator.SetFloat("Speed", myRigidBody.velocity.x);
         myAnimator.SetBool("Grounded", grounded);
 
-        //prevents jump on pause
-        if (EventSystem.current.IsPointerOverGameObject() && !Input.GetKey(KeyCode.Space))
+        if ((EventSystem.current.IsPointerOverGameObject() && !Input.GetKey(KeyCode.Space)) || moveSpeed == 0)
         {
             return;
         }
@@ -119,9 +118,7 @@ public class PlayerControl : MonoBehaviour
         if(other.gameObject.tag == "killbox")
         {
             myAnimator.SetBool("Dead", true);
-            //myRigidBody.velocity = new Vector2(0,0);
             deathSound.Play();
-            //moveSpeed = initialMoveSpeed;
             moveSpeed = 0;
             speedIncreaseMilestone = initialSpeedIncreaseMilestone;
             nextSpeedMilestone = speedIncreaseMilestone;

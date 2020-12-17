@@ -68,8 +68,8 @@ public class PlatformGenerator : MonoBehaviour
             {
                 GameObject newLaundry = laundryPool.GetPooledObject();
                 newLaundry.transform.position = transform.position + 
-                    new Vector3(Random.Range(-platformWidths[platformSelector] / 2, 
-                                             platformWidths[platformSelector] / 2), .5f, 0);
+                    new Vector3(Random.Range(-platformWidths[platformSelector] / 2 + .5f, 
+                                             platformWidths[platformSelector] / 2 - .5f), .5f, 0);
                 newLaundry.transform.rotation = transform.rotation;
                 newLaundry.SetActive(true);
             }
