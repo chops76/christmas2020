@@ -14,6 +14,8 @@ public class ScoreManager : MonoBehaviour
     public float pointsPerSecond;
     public bool scoreIncreasing = true;
 
+    public bool doubleScore;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (scoreIncreasing)
         {
-            scoreCount += pointsPerSecond * Time.deltaTime;
+            addScore(pointsPerSecond * Time.deltaTime);
         }
         
         if (scoreCount > highScoreCount)
@@ -45,8 +47,12 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetFloat("HighScore", highScoreCount);
     }
 
-    public void addScore(int points)
+    public void addScore(float points)
     {
+        if(doubleScore)
+        {
+            points *= 2;
+        }
         scoreCount += points;
     }
 }

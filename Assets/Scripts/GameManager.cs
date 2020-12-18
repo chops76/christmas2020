@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public Transform platformGenerator;
     private Vector3 platformStartPoint;
 
@@ -13,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     private ScoreManager scoreManager;
     private MusicManager musicManager;
+    private PowerUpManager powerUpManager;
 
     public DeathMenu deathScreen;
 
@@ -23,19 +23,13 @@ public class GameManager : MonoBehaviour
         playerStartPoint = player.transform.position;
         scoreManager = FindObjectOfType<ScoreManager>();
         musicManager = FindObjectOfType<MusicManager>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        powerUpManager = FindObjectOfType<PowerUpManager>();
     }
 
     public void RestartGame()
     {
         scoreManager.scoreIncreasing = false;
         scoreManager.SaveHighScore();
-        //player.gameObject.SetActive(false);
         deathScreen.gameObject.SetActive(true);
         musicManager.StopMusic();
     }
@@ -43,6 +37,7 @@ public class GameManager : MonoBehaviour
     public void Reset()
     {
         deathScreen.gameObject.SetActive(false);
+        powerUpManager.Reset();
         PlatformDestroyer[] platformList = FindObjectsOfType<PlatformDestroyer>();
         foreach (PlatformDestroyer platform in platformList)
         {

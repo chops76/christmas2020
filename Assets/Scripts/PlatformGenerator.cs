@@ -8,6 +8,10 @@ public class PlatformGenerator : MonoBehaviour
     public Transform generationPoint;
     public ObjectPool[] objectPools;
 
+    public float powerUpHeight;
+    public ObjectPool[] powerUpPools;
+    public float powerUpPercentChance;
+
     public float distanceBetweenMin;
     public float distanceBetweenMax;
 
@@ -49,6 +53,13 @@ public class PlatformGenerator : MonoBehaviour
 
             float newHeight = transform.position.y + Random.Range(-maxHeightChange, maxHeightChange);
             newHeight = System.Math.Min(maxHeight, System.Math.Max(newHeight, minHeight));
+
+            if (Random.Range(0, 99) < powerUpPercentChance)
+            {
+                GameObject newPowerUp = powerUpPools[Random.Range(0, powerUpPools.Length)].GetPooledObject();
+                newPowerUp.transform.position = transform.position + new Vector3(distanceBetween / 2, powerUpHeight, 0);
+                newPowerUp.SetActive(true);
+            }
 
             transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector]/2) + distanceBetween,
                 newHeight, transform.position.z);
